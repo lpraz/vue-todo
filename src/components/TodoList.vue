@@ -2,7 +2,13 @@
   <div>
     <add-todo-item />
     <ol>
-      <todo-item v-for="item in items" :text="item.text" :key="item.id" />
+      <todo-item
+        v-for="item in items"
+        :id="item.id"
+        :text="item.text"
+        :key="item.id"
+        @editTodoItem="editTodoItem"
+      />
     </ol>
   </div>
 </template>
@@ -13,10 +19,29 @@ import TodoItem from "./TodoItem.vue";
 
 export default {
   name: "TodoList",
-  props: ["items"],
+  data() {
+    return {
+      items: [
+        {
+          id: 1,
+          text: "Finish this app",
+        },
+        {
+          id: 2,
+          text: "Learn more Haskell",
+        },
+      ],
+    };
+  },
   components: {
     AddTodoItem,
     TodoItem,
+  },
+  methods: {
+    editTodoItem(id, text) {
+      let item = this.items.find((i) => i.id == id);
+      item.text = text;
+    },
   },
 };
 </script>
