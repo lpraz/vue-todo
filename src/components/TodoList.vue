@@ -8,6 +8,7 @@
         :text="item.text"
         :key="item.id"
         @editTodoItem="editTodoItem"
+        @removeTodoItem="removeTodoItem"
       />
     </ol>
   </div>
@@ -30,6 +31,10 @@ export default {
           id: 2,
           text: "Learn more Haskell",
         },
+        {
+          id: 3,
+          text: "Repot houseplants"
+        }
       ],
     };
   },
@@ -39,8 +44,12 @@ export default {
   },
   methods: {
     editTodoItem(id, text) {
-      let item = this.items.find((i) => i.id == id);
+      let item = this.items.find((i) => i.id === id);
       item.text = text;
+    },
+    removeTodoItem(id) {
+      let index = this.items.findIndex((i) => i.id === id);
+      this.items.splice(index, 1); // or filter where !== index?
     },
   },
 };

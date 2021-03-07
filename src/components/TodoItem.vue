@@ -3,6 +3,7 @@
     <li v-show="!isEditing">
       <span>{{ text }} </span>
       <button @click="edit">Edit</button>
+      <button @click="remove">Remove</button>
     </li>
     <li v-show="isEditing">
       <input v-model="editText" placeholder="Edit..." />
@@ -18,6 +19,7 @@ export default {
   props: ["id", "text"],
   emits: {
     editTodoItem: null,
+    removeTodoItem: null,
   },
   data() {
     return {
@@ -29,13 +31,16 @@ export default {
     edit() {
       this.isEditing = true;
     },
+    save() {
+      this.isEditing = false;
+      this.$emit("editTodoItem", this.id, this.editText);
+    },
     cancel() {
       this.isEditing = false;
       this.editText = this.text;
     },
-    save() {
-      this.isEditing = false;
-      this.$emit("editTodoItem", this.id, this.editText);
+    remove() {
+      this.$emit("removeTodoItem", this.id);
     },
   },
 };
