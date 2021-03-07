@@ -1,10 +1,27 @@
 <template>
-  <div>Add todo item...</div>
+  <div>
+    <input v-model="text" placeholder="Add new item..." />
+    <button @click="addTodoItem">Add</button>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "AddTodoItem"
+  name: "AddTodoItem",
+  emits: {
+    addTodoItem: null,
+  },
+  data() {
+    return {
+      text: "",
+    };
+  },
+  methods: {
+    addTodoItem() {
+      this.$emit("addTodoItem", this.text);
+      this.text = ""
+    },
+  },
 };
 </script>
 

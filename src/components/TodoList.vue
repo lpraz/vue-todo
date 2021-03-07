@@ -1,6 +1,6 @@
 <template>
   <div>
-    <add-todo-item />
+    <add-todo-item @addTodoItem="addTodoItem" />
     <ol>
       <todo-item
         v-for="item in items"
@@ -33,8 +33,8 @@ export default {
         },
         {
           id: 3,
-          text: "Repot houseplants"
-        }
+          text: "Repot houseplants",
+        },
       ],
     };
   },
@@ -43,6 +43,16 @@ export default {
     TodoItem,
   },
   methods: {
+    addTodoItem(text) {
+      this.items.push({
+        id:
+          this.items
+            .map((i) => i.id)
+            .sort()
+            .pop() + 1,
+        text,
+      });
+    },
     editTodoItem(id, text) {
       let item = this.items.find((i) => i.id === id);
       item.text = text;
