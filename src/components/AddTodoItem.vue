@@ -19,7 +19,7 @@ export default {
   methods: {
     addTodoItem() {
       this.$emit("addTodoItem", this.text);
-      this.text = ""
+      this.text = "";
     },
   },
 };

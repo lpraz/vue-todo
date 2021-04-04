@@ -20,27 +20,27 @@ import TodoItem from "./TodoItem.vue";
 
 export default {
   name: "TodoList",
-  data() {
-    return {
-      items: [
-        {
-          id: 1,
-          text: "Finish this app",
-        },
-        {
-          id: 2,
-          text: "Learn more Haskell",
-        },
-        {
-          id: 3,
-          text: "Repot houseplants",
-        },
-      ],
-    };
-  },
   components: {
     AddTodoItem,
     TodoItem,
+  },
+  data() {
+    let jsonItems = localStorage.getItem("todos");
+    try {
+      let items = JSON.parse(jsonItems);
+      if (Array.isArray(items)) return { items };
+      return { items: [] };
+    } catch (e) {
+      return { items: [] };
+    }
+  },
+  watch: {
+    items: {
+      handler(newItems) {
+        localStorage.setItem("todos", JSON.stringify(newItems));
+      },
+      deep: true,
+    },
   },
   methods: {
     addTodoItem(text) {
