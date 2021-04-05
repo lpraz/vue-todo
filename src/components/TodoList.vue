@@ -26,13 +26,8 @@ export default {
   },
   data() {
     let jsonItems = localStorage.getItem("todos");
-    try {
-      let items = JSON.parse(jsonItems);
-      if (Array.isArray(items)) return { items };
-      return { items: [] };
-    } catch (e) {
-      return { items: [] };
-    }
+    let items = this.parseJsonOrNull(jsonItems) || [];
+    return { items };
   },
   watch: {
     items: {
@@ -44,14 +39,14 @@ export default {
   },
   methods: {
     addTodoItem(text) {
-      this.items.push({
-        id:
-          this.items
-            .map((i) => i.id)
-            .sort()
-            .pop() + 1,
-        text,
-      });
+      let lastId = this.items
+        .map((i) => i.id)
+        .sort()
+        .pop();
+      if (!lastId) lastId = 1;
+      let id = lastId + 1;
+
+      this.items.push({ id, text });
     },
     editTodoItem(id, text) {
       let item = this.items.find((i) => i.id === id);
@@ -60,6 +55,13 @@ export default {
     removeTodoItem(id) {
       let index = this.items.findIndex((i) => i.id === id);
       this.items.splice(index, 1); // or filter where !== index?
+    },
+    parseJsonOrNull(json) {
+      try {
+        return JSON.parse(json);
+      } catch (e) {
+        return null;
+      }
     },
   },
 };
