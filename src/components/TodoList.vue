@@ -1,7 +1,7 @@
 <template>
   <div>
     <add-todo-item @addTodoItem="addTodoItem" />
-    <ol>
+    <transition-group name="todo-items" tag="ol">
       <todo-item
         v-for="item in items"
         :id="item.id"
@@ -9,8 +9,9 @@
         :key="item.id"
         @editTodoItem="editTodoItem"
         @removeTodoItem="removeTodoItem"
+        class="todo-item"
       />
-    </ol>
+    </transition-group>
   </div>
 </template>
 
@@ -69,4 +70,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.todo-items-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.todo-items-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.todo-items-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.todo-items-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 </style>
